@@ -1,0 +1,27 @@
+package osgi.mtit.auth;
+
+public class AdminAuthorization {
+	String username = "admin";
+	String password = "admin";
+	int invalidCounter = 0;
+	
+	public boolean authorizeAdmin(String un, String pass) {
+		System.out.println("called in un : " + un + " , Pass : " + pass);
+		if(un.equals("admin") && pass.equals("admin")) {
+			System.out.println("came");
+			return true;
+		}else {
+			++invalidCounter;
+			return false;
+		}
+	}
+	
+	public int getInvalidCounter() {
+		return invalidCounter;
+	}
+
+	public void test() {
+		System.out.println("XXXXXXXXXXXXXXXXXX");
+	}
+	
+}

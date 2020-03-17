@@ -1,0 +1,44 @@
+package osgi.mtit.service;
+
+import java.util.ArrayList;
+import osgi.mtit.userService.User;
+
+public class NewsForumImpl implements NewsForum {
+	
+	ArrayList<String> allNews = new ArrayList<String>();
+	String latestNews = null;
+	ArrayList<User> subscribers = new ArrayList<>();
+	
+	@Override
+	public void publishANews(String newsHeader, String newsBody, String newsTags) {
+		allNews.add(newsHeader + "\n" + newsBody + "\n" + newsTags);
+		latestNews = newsHeader + "\n" + newsBody + "\n" + newsTags;
+		notifyAllSubscribers();
+	}
+	
+	
+	
+	@Override
+	public void notifyAllSubscribers() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ArrayList<String> getAllNews() {		                                                           
+		System.out.println("=========================\n-WORLD WIDE NEWS PORTAL-\n=========================\nLatest Feeds\n=============");
+		return allNews;
+	}
+
+	@Override
+	public String getLatestNews() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void attachSubscriber(User user) {
+		subscribers.add(user);
+	}
+
+}

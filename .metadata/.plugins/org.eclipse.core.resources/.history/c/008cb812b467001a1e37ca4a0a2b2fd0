@@ -1,0 +1,22 @@
+package osgi.mtit.userService;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
+
+public class UserActivator implements BundleActivator {
+	
+	ServiceRegistration serviceRegistration;
+
+	public void start(BundleContext context) throws Exception {
+		System.out.println("Publisher started!");
+		ServicePublish servicePublish = new ServicePublisherImpl();
+		serviceRegistration = bundleContext.registerService(ServicePublish.class.getName(), 
+				servicePublish, null);
+	}
+
+	public void stop(BundleContext context) throws Exception {
+		
+	}
+
+}

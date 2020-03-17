@@ -1,0 +1,35 @@
+package osgi.mtit.service;
+
+import java.util.ArrayList;
+
+public class NewsForumImpl implements NewsForum {
+	
+	ArrayList<String> allNews = new ArrayList<String>();
+	String latestNews = null;
+	
+	@Override
+	public void publishANews(String news) {
+		allNews.add(news);
+		latestNews = news;
+		notifyAllSubscribers();
+	}
+
+	@Override
+	public void notifyAllSubscribers() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ArrayList<String> displayAllNews() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getLatestNews() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

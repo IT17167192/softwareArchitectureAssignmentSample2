@@ -1,0 +1,23 @@
+package osgi.mtit.admin;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+
+import osgi.mtit.service.NewsForum;
+
+public class ForumAdministrationActivator implements BundleActivator {
+
+	ServiceReference serviceReference;
+
+	public void start(BundleContext context) throws Exception {
+		System.out.println("Administration is started!");
+		serviceReference = context.getServiceReference(NewsForum.class.getName());
+		NewsForum newsForum = (NewsForum)context.getService(serviceReference);
+	}
+
+	public void stop(BundleContext context) throws Exception {
+		
+	}
+
+}

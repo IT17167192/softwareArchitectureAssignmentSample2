@@ -1,0 +1,5 @@
+package osgi.mtit.auth;
+
+public class AdminAuthorization {
+
+}

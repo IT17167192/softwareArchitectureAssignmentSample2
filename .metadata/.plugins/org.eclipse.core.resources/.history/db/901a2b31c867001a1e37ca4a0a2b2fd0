@@ -1,0 +1,94 @@
+package osgi.mtit.userService;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleException;
+import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
+import osgi.mtit.service.NewsForum;
+
+public class UserActivator implements BundleActivator {
+	
+	ServiceReference newsForumReference;
+	User subscriberOne;
+	NewsForum newsForum = null;
+	
+	public void start(BundleContext context) throws Exception {
+	
+		System.out.println("User logged in!");
+		
+		subscriberOne = new SubscriberOne();
+		subscriberOne.setUserId(1);
+		subscriberOne.setUserName("SUBSCRIBER 1");
+		
+		try {
+			newsForumReference = context.getServiceReference(NewsForum.class.getName());
+			newsForum = (NewsForum)context.getService(newsForumReference);
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			System.out.println("Object not found!");
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Object not found!");
+		}
+		
+		userActivities();
+		
+	    
+	}
+
+	private void userActivities() {
+		String cmd = "";
+		try {
+			Scanner sc = new Scanner(System.in);
+			
+			System.out.println("To watch latest feed, type command : latest");
+			System.out.println("To watch all feeds, type command : all");
+			System.out.println("To exit, type command : exit");
+			
+			System.out.print("cmd<<");
+			cmd = sc.nextLine().trim();
+			
+			while(!cmd.equalsIgnoreCase("exit")) {
+				if(cmd.equalsIgnoreCase("all")) {
+					ArrayList<String> allNews = newsForum.getAllNews();
+					
+					for(String n : allNews) {
+						System.out.println(subscriberOne.getUserName() + " gets feeds");
+						System.out.println(n);
+						System.out.println("======================================");
+					}
+				}else if(cmd.equalsIgnoreCase("latest")){
+					if(!newsForum.getLatestNews().equals("null")) {
+						System.out.println(newsForum.getLatestNews());						
+					}else {
+						System.out.println("No latest feeds found!");
+					}
+				}else {
+					System.out.println("****INVALID COMMAND****");
+				}
+				cmd = "";
+				System.out.print("cmd<<");
+				cmd = sc.nextLine().trim();
+			}
+			
+			
+			
+			
+		}catch (Exception exeption) {
+			// TODO: handle exception
+			System.out.println("Object not found!");
+			cmd = "exit";
+		}
+		
+	}
+
+	public void stop(BundleContext context) throws Exception {
+		System.out.println("User " + subscriberOne.getUserName()+ " went offline!");
+		context.ungetService(newsForumReference);
+	}
+
+}

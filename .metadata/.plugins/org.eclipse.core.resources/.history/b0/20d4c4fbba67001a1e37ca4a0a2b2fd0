@@ -1,0 +1,29 @@
+package osgi.mtit.userService;
+
+public class SubscriberOne implements User{
+
+	int id;
+	String name;
+	NewsForum newsForum;
+	
+	@Override
+	public void setUserId(int id) {
+		this.id = id;
+	}
+
+	@Override
+	public void setUserName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String getUserName() {
+		return name;
+	}
+
+	@Override
+	public int getUserId() {
+		return id;
+	}
+	
+}

@@ -1,0 +1,106 @@
+package osgi.mtit.admin;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import osgi.mtit.auth.AdminAuthorization;
+import osgi.mtit.service.NewsForum;
+
+public class ForumAdministrationActivator implements BundleActivator {
+
+	ServiceReference newsForumReference;
+	ServiceReference authenticationReference;
+	AdminAuthorization adminAuthorization = null;
+	NewsForum newsForum = null;
+	
+	public void start(BundleContext context) throws Exception {
+		System.out.println("Administration is started!");
+		
+		newsForumReference = context.getServiceReference(NewsForum.class.getName());
+		authenticationReference = context.getServiceReference(AdminAuthorization.class.getName());
+		newsForum = (NewsForum)context.getService(newsForumReference);
+		adminAuthorization = (AdminAuthorization)context.getService(authenticationReference);
+		publishANews();
+	}
+
+	public void stop(BundleContext context) throws Exception {
+		System.out.println("Come again thank you!");
+		context.ungetService(newsForumReference);
+		context.ungetService(authenticationReference);
+	}
+	
+	public void publishANews() {
+		
+		Scanner sc = new Scanner(System.in);
+
+		String username = null;
+		String password = null;
+		
+		System.out.print("Enter the username : ");
+	    username = sc.nextLine(); 
+	    
+	    System.out.print("Enter the password : ");
+	    password = sc.nextLine(); 
+		
+	    while(!adminAuthorization.authorizeAdmin(username, password) && adminAuthorization.getInvalidCounter() < 4) {
+	    	System.out.print("Please enter the correct credentials!");
+	    	System.out.print("Enter the username : ");
+		    username = sc.nextLine(); 
+		    
+		    System.out.print("Enter the password : ");
+		    password = sc.nextLine(); 
+	    }
+	    
+	   
+		
+	    if(adminAuthorization.getInvalidCounter() > 3) {
+	    	System.out.println("Please try again in 30 min\nor contact admin fyugma@gmail.com");
+	    }else {
+	    	String newsHeader = "";
+	    	String newsBody = "";
+	    	String newsTags = "";
+	    	
+	    	System.out.print("Enter 'exit' to exit!");
+			
+	    	System.out.print("Enter the news header : ");
+			newsHeader = sc.nextLine(); 
+			System.out.print("Enter the news body : ");
+			newsBody = sc.nextLine(); 
+			System.out.print("Enter the news tags : ");
+			newsTags = sc.nextLine(); 
+			
+		    while(!newsHeader.equals("exit")) {
+		    	newsForum.publishANews(newsHeader, newsBody, newsTags);
+		    	System.out.println("News is successfully published!");
+		    	
+		    	newsHeader = "";
+		    	newsBody = "";
+		    	newsTags = "";
+		    	
+		    	System.out.print("Enter the news header : ");
+				newsHeader = sc.nextLine(); 
+				
+				System.out.print("Enter the news body : ");
+				newsBody = sc.nextLine(); 
+				
+				System.out.print("Enter the news tags : ");
+				newsTags = sc.nextLine();
+			}
+		    
+		    ArrayList<String> allNews = newsForum.getAllNews();
+		    
+		    for(String n : allNews) {
+		    	System.out.println(n);
+		    }
+	    }
+	    
+		
+	    
+	    
+		
+	}
+
+}

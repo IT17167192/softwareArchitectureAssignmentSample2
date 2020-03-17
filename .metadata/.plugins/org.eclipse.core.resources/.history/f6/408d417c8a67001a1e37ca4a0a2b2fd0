@@ -1,0 +1,5 @@
+package osgi.mtit.service;
+
+public interface NewsForum {
+
+}

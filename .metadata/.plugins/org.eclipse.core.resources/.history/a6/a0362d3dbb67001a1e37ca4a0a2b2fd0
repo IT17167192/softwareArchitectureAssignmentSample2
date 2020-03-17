@@ -1,0 +1,28 @@
+package osgi.mtit.userService;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
+
+public class UserActivator implements BundleActivator {
+	
+	ServiceRegistration serviceRegistration;
+	ServiceReference newsForumReference;
+	
+	public void start(BundleContext context) throws Exception {
+		ServiceRegistration serviceRegistration;
+		System.out.println("User logged in!");
+		User subscriberOne = new SubscriberOne();
+		subscriberOne.setUserId(1);
+		subscriberOne.setUserName("SUBSCRIBER 1");
+		serviceRegistration = context.registerService(User.class.getName(), 
+				subscriberOne, null);
+	}
+
+	public void stop(BundleContext context) throws Exception {
+		System.out.println("User Service has stopped!");
+		serviceRegistration.unregister();
+	}
+
+}

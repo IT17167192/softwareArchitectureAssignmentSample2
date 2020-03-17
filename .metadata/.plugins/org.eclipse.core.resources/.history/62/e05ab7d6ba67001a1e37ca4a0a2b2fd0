@@ -1,0 +1,32 @@
+package osgi.mtit.service;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
+
+import osgi.mtit.userService.User;
+
+public class NewsForumActivator implements BundleActivator {
+	
+	ServiceRegistration serviceRegistration;
+	ServiceReference userServiceReference;
+
+	public void start(BundleContext context) throws Exception {
+		System.out.println("News forum has started!");
+		
+		userServiceReference = context.getServiceReference(User.class.getName());
+		User user = (User)context.getService(userServiceReference);
+		
+		NewsForum newsForum = new NewsForumImpl();
+		serviceRegistration = context.registerService(NewsForum.class.getName(), 
+				newsForum, null);
+		
+	}
+
+	public void stop(BundleContext context) throws Exception {
+		System.out.println("News forum went offline!");
+		serviceRegistration.unregister();
+	}
+
+}

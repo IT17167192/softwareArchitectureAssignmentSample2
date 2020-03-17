@@ -1,0 +1,51 @@
+package osgi.mtit.admin;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+
+import osgi.mtit.service.NewsForum;
+
+public class ForumAdministrationActivator implements BundleActivator {
+
+	ServiceReference newsForumReference;
+	ServiceReference authenticationReference;
+	
+	public void start(BundleContext context) throws Exception {
+		System.out.println("Administration is started!");
+		newsForumReference = context.getServiceReference(NewsForum.class.getName());
+		NewsForum newsForum = (NewsForum)context.getService(newsForumReference);
+		publishANews(newsForum);
+	}
+
+	public void stop(BundleContext context) throws Exception {
+		
+	}
+	
+	public void publishANews(NewsForum newsForum) {
+		String news = null;
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Enter the news : ");
+	    news = sc.nextLine(); 
+		
+	    while(!news.equals("exit")) {
+	    	newsForum.publishANews(news);
+	    	System.out.println("Enter the news : ");
+		    news = sc.nextLine(); 
+		}
+	    
+	    ArrayList<String> allNews = newsForum.getAllNews();
+	    
+	    for(String n : allNews) {
+	    	System.out.println(n);
+	    }
+	    
+	    
+		
+	}
+
+}

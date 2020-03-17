@@ -1,0 +1,43 @@
+package osgi.mtit.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class NewsForumImpl implements NewsForum {
+	
+	ArrayList<String> allNews = new ArrayList<String>();
+	HashMap<String, String> allNewsTest = new HashMap<String, String>();
+	String latestNews = null;
+	
+	@Override
+	public void publishANews(String news) {
+		allNews.add(news);
+		latestNews = news;
+		notifyAllSubscribers();
+	}
+	
+	@Override
+	public void publishANews2(String topic, String news) {
+		allNews.add(news);
+		latestNews = news;
+		notifyAllSubscribers();
+	}
+	
+	@Override
+	public void notifyAllSubscribers() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ArrayList<String> getAllNews() {
+		return allNews;
+	}
+
+	@Override
+	public String getLatestNews() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

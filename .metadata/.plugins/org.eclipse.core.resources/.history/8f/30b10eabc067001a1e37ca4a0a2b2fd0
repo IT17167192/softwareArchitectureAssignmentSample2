@@ -1,0 +1,9 @@
+package osgi.mtit.userService;
+
+public interface User {
+	public void setUserId(int id);
+	public void setUserName(String name);
+	public String getUserName();
+	public int getUserId();
+	public void displayLatest();
+}

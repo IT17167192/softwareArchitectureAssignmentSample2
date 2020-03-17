@@ -1,0 +1,5 @@
+package osgi.mtit.user;
+
+public class User {
+
+}
